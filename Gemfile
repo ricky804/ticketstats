@@ -41,3 +41,5 @@ gem 'jquery-rails'
 
 #Login plugin
 gem 'devise'
+
+gem 'mysql'

@@ -1,0 +1,25 @@
+<h1>fuck</h2>
+
+<%= current_user.email %> 
+<p>
+number of tickets <%= @total_number_of_tickets %>
+<p>
+rt user id <%= @rtuser.id %>
+<p>
+number of created tickets by the user <%= @total_tickets_created_by_user.count() %>
+
+
+
+<table border=1>
+<% @total_tickets_created_by_user.each do |ticket| %>
+    <tr>
+      <td><%= ticket.id %></td>
+      <td><%= ticket.Subject %></td>
+      <td><%= ticket.rtuser.Name rescue "none" %>
+      <td><%= ticket.Subject %></td>
+      <td><%= ticket.Created %></td>
+      <td><%= ticket.Resolved %></td>
+    </tr>
+  <% end %>
+</table>
+
