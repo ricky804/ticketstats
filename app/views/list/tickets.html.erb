@@ -10,7 +10,7 @@ number of created tickets by the user <%= @total_tickets_created_by_user.count()
 
 
 
-<table border=1>
+<table class="table table-striped table-hover">
 <% @total_tickets_created_by_user.each do |ticket| %>
     <tr>
       <td><%= ticket.id %></td>
