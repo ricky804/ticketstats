@@ -1,25 +1,34 @@
-<h1>fuck</h2>
+<h1><%= @total_number_of_tickets_created_by_user %> created by <%= current_user.email %></h2>
 
-<%= current_user.email %> 
 <p>
-number of tickets <%= @total_number_of_tickets %>
-<p>
-rt user id <%= @rtuser.id %>
-<p>
-number of created tickets by the user <%= @total_tickets_created_by_user.count() %>
-
-
+<hr>
 
 <table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Favorite</th>
+      <th> <%= link_to "Ticket", :sort => "id", :page => params[:page] %></th>
+      <th> <%= link_to "Subject", :sort => "Subject", :page => params[:page] %></th>
+      <th> <%= link_to "Owner", :sort => "Owner", :page => params[:page] %></th>
+      <th> <%= link_to "Last Update", :sort => "LastUpdated desc", :page => params[:page] %></th>
+      <th> <%= link_to "Status", :sort => "Status", :page => params[:page]%></th>
+    </tr> 
+  </thead>
+
 <% @total_tickets_created_by_user.each do |ticket| %>
     <tr>
+      <td><a class="btn btn-small" href="#"><i class="icon-star-empty"></i></a></td>
       <td><%= ticket.id %></td>
       <td><%= ticket.Subject %></td>
-      <td><%= ticket.rtuser.Name rescue "none" %>
-      <td><%= ticket.Subject %></td>
-      <td><%= ticket.Created %></td>
-      <td><%= ticket.Resolved %></td>
+      <td><%= ticket.rtuser.Name rescue "No Name" %>
+      <td><%= ticket.LastUpdated %></td>
+      <td><%= ticket.Status %></td>
     </tr>
   <% end %>
 </table>
+
+
+<div class="flickr_pagination">
+     <%= will_paginate @total_tickets_created_by_user %>
+</div>
 

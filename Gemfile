@@ -43,3 +43,5 @@ gem 'jquery-rails'
 gem 'devise'
 
 gem 'mysql'
+gem 'will_paginate'
+gem 'kaminari'
