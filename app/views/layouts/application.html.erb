@@ -14,7 +14,7 @@
     <div class="navbar-inner">
       <a class="brand" href="/">Home</a>
         <ul class="nav">
-          <li class="active"><a href="#">My Tickets</a></li>
+          <li class="active"><%= link_to "My Tickets", rttickets_path%></li>
           <li><a href="#">Customer Tickets</a></li>
           <li><a href="#">Graphs</a></li>
           <li><a href="#">Reports</a></li>
@@ -27,41 +27,16 @@
     </div>
   </div>
 
-  <!--Default layout-->
-  <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span2">
-          <!--Sidebar content-->
-            <ul class="nav nav-list">
-              <li class="nav-header">Tickets</li>
-              <li class="active"><%= link_to "My tickets", list_tickets_path %></li>
-              <li><a href="#">Favorite Tickets</a></li>
-              <li><a href="#">Recent Activities</a><li>
-              <li><a href="#">Notes</a><li>
-              <li><a href="#"></a><li>
-            </ul>
-            <!-- temporary disabled
-            <ul class="nav nav-list">
-              <li class="nav-header">Customer Tickets</li>
-              <li class="active"><a href="#">Tickets by customer</a></li>
-              <li><a href="#">Statistics</a></li>
-              <li><a href="#">Create Groups</a><li>
-            </ul>
-            -->
-        </div>
-        <div class="span10">
-            <!--Body content-->
-            <% if notice %>
-              <p class="alert alert-notice"><%= notice %></p>
-            <% end %>
-            <% if alert %>
-              <p class="alert alert-error"><%= alert %></p>
-            <% end %>
-            <!--Actual body-->
-            <%= yield %>
-        </div>
-    </div>
-  </div>
+  <!--Body content-->
+  <% if notice %>
+    <p class="alert alert-notice"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert alert-error"><%= alert %></p>
+  <% end %>
+  <!--Actual body-->
+  <%= yield %>
+
 <% else %>
   <%= yield %>
 <% end %>

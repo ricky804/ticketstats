@@ -1,7 +1,7 @@
 Ticketstats::Application.routes.draw do
   devise_for :users
 
-  get 'list/tickets'
+  resources :rttickets, only: [:index, :show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
