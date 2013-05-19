@@ -2,6 +2,7 @@ Ticketstats::Application.routes.draw do
   devise_for :users
 
   resources :rttickets, only: [:index, :show]
+  resources :favorites
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

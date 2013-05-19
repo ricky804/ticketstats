@@ -1,0 +1,9 @@
+<div class="container">
+  <h1> Favorite Tickets </h1>
+  <%= simple_form_for @favorite do |f| %>
+    <%= f.input :ticket_id, label: false %> <!-- ticket_id should match with the favorite db field ticket_id -->
+    <%= f.input :note, as: :text %>
+    <%= f.input :tag %>
+    <%= f.submit class: "btn" %>
+  <% end %>
+</div>

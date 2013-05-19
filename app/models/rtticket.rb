@@ -3,6 +3,9 @@ class Rtticket < ActiveRecord::Base
   #So this case it default key was "rtuser_id"
   belongs_to :rtuser, :foreign_key => "Owner"
 
+  has_many :favorites
+  has_many :transactions
+
   #Actual table name in RT database
   self.table_name = "tickets"
   

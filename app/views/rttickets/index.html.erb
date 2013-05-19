@@ -3,15 +3,8 @@
   <div class="row-fluid">
     <div class="span2">
       <!--Sidebar content-->
-        <ul class="nav nav-list">
-          <li class="nav-header">Tickets</li>
-          <li class="active"><%= link_to "My tickets", rttickets_path %></li>
-          <li><a href="#">Favorite Tickets</a></li>
-          <li><a href="#">Recent Activities</a><li>
-          <li><a href="#">My Notes</a><li>
-          <li><a href="#">Watch Customers</a><li>
-        </ul>
-      </div>
+      <%= render :partial => "particial/sidemenu1" %>
+    </div>
     <div class="span10">
       <!--Here goes the body content -->
       <h1> My Tickets </h1>
