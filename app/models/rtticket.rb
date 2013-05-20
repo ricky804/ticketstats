@@ -1,7 +1,7 @@
 class Rtticket < ActiveRecord::Base
   #Relation between rtuser and rtticket. Table that has foreign_key is always 'belongs_to'. Default foreign_key is "_id"
   #So this case it default key was "rtuser_id"
-  belongs_to :rtuser, :foreign_key => "Owner"
+  belongs_to :rtuser, :foreign_key => "Creator"
 
   has_many :favorites
   has_many :transactions

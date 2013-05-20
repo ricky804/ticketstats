@@ -3,6 +3,9 @@ Ticketstats::Application.routes.draw do
 
   resources :rttickets, only: [:index, :show]
   resources :favorites
+  resources :customers
+  resources :emails
+  resources :tickets
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,0 +1,8 @@
+<div class="container">
+  <h1> Add Customer </h1>
+  <%= simple_form_for @customer do |f| %>
+    <%= f.input :name %>
+    <%= text_field_tag :email, "Email address here"  %>
+    <%= f.submit class: "btn" %>
+  <% end %>
+</div>

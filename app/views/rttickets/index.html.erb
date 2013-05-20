@@ -16,7 +16,7 @@
             <th>Favorite</th>
             <th> <%= link_to "Ticket", :page => params[:page] %></th>
             <th> <%= link_to "Subject", :page => params[:page] %></th>
-            <th> <%= link_to "Owner", :page => params[:page] %></th>
+            <th> <%= link_to "CreatedBy", :page => params[:page] %></th>
             <th> <%= link_to "Last Update", :page => params[:page] %></th>
             <th> <%= link_to "Status", :page => params[:page]%></th>
           </tr>
@@ -27,7 +27,7 @@
               <td><a class="btn btn-small" href="#"><i class="icon-star-empty"></i></a></td>
               <td><%= ticket.id %></td>
               <td><%= ticket.Subject %></td>
-              <td><%= ticket.rtuser.Name rescue "No Name" %>
+              <td><%= ticket.rtuser.EmailAddress rescue "No Name" %>
               <td><%= ticket.LastUpdated %></td>
               <td><%= ticket.Status %></td>
             </tr>
