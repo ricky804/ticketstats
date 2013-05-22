@@ -6,6 +6,7 @@ div class="container-fluid"
     div class="span10"
       <!--Here goes the body content -->
       h1 = @customer.name
+      p class="text-right" =@number_of_tickets_created
       table class="table"
         thead
           tr
@@ -37,3 +38,5 @@ div class="container-fluid"
               td = ticket.rtuser.EmailAddress
               td = ticket.LastUpdated
               td = ticket.Status
+      = link_to "Delete", customer_path(@customer), method: :delete, :confirm => "Are you sure?", class: "btn"
+

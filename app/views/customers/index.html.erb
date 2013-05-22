@@ -10,9 +10,19 @@
       <h1> Customers </h1>
       <p><%= link_to "Add customer", new_customer_path, class: "btn" %></p>
       <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Favorite</th>
+              <th>Name</th>
+              <th>Requestors</th>
+              <th>View</th>
+            </tr>
+          </thead>
         <% @customer.each do |c| %>
           <tr>
+            <td><a class="btn btn-small" href="#"><i class="icon-star-empty"></i></a></td>
             <td><%= c.name %></td>
+            <td><%= c.emails.count() %></td>
             <td><%= link_to "View", customer_path(c), class: "btn" %></td>
           </tr>
         <% end %>

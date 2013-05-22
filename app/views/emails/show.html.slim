@@ -5,8 +5,8 @@ div class="container-fluid"
       = render :partial => "particial/sidemenu2"
     div class="span10"
       <!--Here goes the body content -->
-
       h1 Tickets Created
+      div =high_chart("my_id", @chart)
       table class="table table-striped table-hover"
         thead
           tr
@@ -25,4 +25,6 @@ div class="container-fluid"
               td = ticket.Subject
               td = ticket.LastUpdated
               td = ticket.Status
+
+
 
