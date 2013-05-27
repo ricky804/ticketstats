@@ -12,8 +12,10 @@ div class="container-fluid"
           tr
             th Email
             th Customer
+            th Action
         tbody
           - @email.each do |email|
             tr
               td= link_to email.email, email_path(email)
               td= email.customer.name
+              td= link_to "Delete", email_path(email), method: :delete, confirm: "Are you sure?", class: "btn"

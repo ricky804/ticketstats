@@ -7,6 +7,7 @@ div class="container-fluid"
       <!--Here goes the body content -->
       h1 = @customer.name
       p class="text-right" =@number_of_tickets_created
+      div =high_chart("my_id", @chart)
       table class="table"
         thead
           tr

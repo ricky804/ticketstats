@@ -4,15 +4,18 @@ class FavoritesController < ApplicationController
   end
 
   def new
-    #This variable will be used in new view
     @favorite = Favorite.new
   end
 
   def create
-    @favorite = Favorite.new(params[:favorite])
-    @favorite.user_id = current_user.id
-    @favorite.save
-    redirect_to favorites_path
+    @favorite = Favorite.find_by_ticket_id(params[:ticket_id])
+    if !@favorite
+      @favorite = Favorite.new
+      @favorite.ticket_id = params[:ticket_id]
+      @favorite.user_id = current_user.id
+      @favorite.save
+      redirect_to favorites_path
+    end
   end
 
   def destroy

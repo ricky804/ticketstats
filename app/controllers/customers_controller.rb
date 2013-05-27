@@ -23,6 +23,12 @@ class CustomersController < ApplicationController
     end
     @rttickets = Rtticket.find_all_by_Creator(lst_rtuser_ids, order: "LastUpdated desc")
     @number_of_tickets_created = @rttickets.count()
+    @counts_created = Rtticket.count(conditions: ["Creator in (?)", lst_rtuser_ids], group: "DATE_FORMAT(Created, '%Y-%m')")
+    @counts_closed = Rtticket.count(
+      conditions: ["Creator in (?) and Status in (?)", lst_rtuser_ids, lst_closed_ticket],
+      group: "DATE_FORMAT(Created, '%Y-%m')"
+    )
+    @chart = draw_line_chart(@counts_created, @counts_closed)
   end
 
   def create
