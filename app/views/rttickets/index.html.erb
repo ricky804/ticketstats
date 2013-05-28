@@ -23,7 +23,13 @@
         <tbody>
         <% @total_tickets_created_by_user.each do |ticket| %>
           <tr>
-            <td><a href=<%= "##{ticket.id}_mymodal" %> data-toggle="modal" class="btn">Favorite</a></td>
+            <td>
+              <% if ticket.favorited?(current_user.id, ticket.id) %>
+                <%= link_to "Favorited", nil, class: "btn btn-info" %>
+              <% else %>
+                <a href=<%= "##{ticket.id}_mymodal" %> data-toggle="modal" class="btn">Favorite</a>
+              <% end %>
+            </td>
             <td><%= ticket.id %></td>
             <td><%= ticket.Subject %></td>
             <td><%= ticket.LastUpdated %></td>

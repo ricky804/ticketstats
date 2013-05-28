@@ -21,7 +21,7 @@ class CustomersController < ApplicationController
     @rtuser.each do |user|
       lst_rtuser_ids << user.id
     end
-    @rttickets = Rtticket.find_all_by_Creator(lst_rtuser_ids, order: "LastUpdated desc")
+    @rttickets = Rtticket.find_all_by_Creator(lst_rtuser_ids, order: "LastUpdated desc").paginate(page: params[:page], per_page: 10)
     @number_of_tickets_created = @rttickets.count()
     @counts_created = Rtticket.count(conditions: ["Creator in (?)", lst_rtuser_ids], group: "DATE_FORMAT(Created, '%Y-%m')")
     @counts_closed = Rtticket.count(

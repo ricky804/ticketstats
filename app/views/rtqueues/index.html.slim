@@ -1,0 +1,20 @@
+div class="container-fluid"
+  div class="row-fluid"
+    div class="span2"
+      <!--Sidebar content-->
+      = render :partial => "particial/sidemenu3"
+    div class="span10"
+      <!--Here goes the body content -->
+      h1 Queues
+      table class="table"
+        thead
+          tr
+            th Queue
+            th CreatedBy
+            th Status
+        tbody
+          - @rtqueues.each do |queue|
+            tr
+              td= queue.Name
+              td= queue.rttickets.count()
+              td= queue.Disabled

@@ -47,5 +47,7 @@ class ApplicationController < ActionController::Base
       f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 0)
     end
   end
+
+
 end
 

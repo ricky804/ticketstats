@@ -7,7 +7,6 @@
     <div class="span10">
       <!--Here goes the body content -->
       <h1>Favorite Tickets</h1>
-      <p><%= link_to "Add favorite", new_favorite_path, class: "btn" %></p>
       <% @favorite_tickets.each_slice(3) do |slice| %>
         <ul class="thumbnails">
           <% slice.each do |ticket| %>

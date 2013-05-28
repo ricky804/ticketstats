@@ -6,7 +6,7 @@ class EmailsController < ApplicationController
   def show
     @email = Email.find(params[:id])
     @rtuser = Rtuser.find_by_EmailAddress(@email.email)
-    @rttickets = Rtticket.find_all_by_Creator(@rtuser.id, order: "LastUpdated desc")
+    @rttickets = Rtticket.find_all_by_Creator(@rtuser.id, order: "LastUpdated desc").paginate(page: params[:page], per_page: 10)
     @counts_created = Rtticket.count(conditions: ["Creator= ?", @rtuser.id], group: "DATE_FORMAT(Created, '%Y-%m')")
     @counts_closed = Rtticket.count(
       conditions: ["Creator=? and Status in (?)", @rtuser.id, lst_closed_ticket],

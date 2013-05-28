@@ -19,12 +19,17 @@ div class="container-fluid"
           - @rttickets.each do |ticket|
             tr
               td
-                a class="btn btn-small"
-                  i class="icon-star-empty"
+                - if ticket.favorited?(current_user.id, ticket.id)
+                  = link_to "Favorited", nil, class: "btn btn-info"
+                - else
+                  = link_to "Favorite", "##{ticket.id}_mymodal", data: {toggle: "modal"}, class: "btn"
               td = ticket.id
               td = ticket.Subject
               td = ticket.LastUpdated
               td = ticket.Status
+            = render :partial => "particial/modalnote", locals: {ticket: ticket}
+      div class="flickr_pagination" = will_paginate @rttickets
+
 
 
 

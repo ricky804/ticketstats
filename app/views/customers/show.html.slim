@@ -39,5 +39,6 @@ div class="container-fluid"
               td = ticket.rtuser.EmailAddress
               td = ticket.LastUpdated
               td = ticket.Status
+      div class="flickr_pagination" = will_paginate @rttickets
       = link_to "Delete", customer_path(@customer), method: :delete, :confirm => "Are you sure?", class: "btn"
 

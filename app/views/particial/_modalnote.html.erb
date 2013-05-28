@@ -1,13 +1,25 @@
 <div id=<%= "#{ticket.id}_mymodal" %> class="modal hide fade">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3><%= ticket.Subject %></h3>
+    <h3><%= "##{ticket.id} #{ticket.Subject}" %></h3>
   </div>
   <div class="modal-body">
-    <p>fuffkfjfklf </p>
+    <p>
+    <%= form_tag controller: "favorites", action: "create", method: "post" do %>
+      <%= hidden_field_tag :ticket_id, ticket.id %>
+      <div>
+        <p> Note </p>
+         <%= text_area_tag :note, nil, placeholder: "Leave any comment here", rows: 5, cols: 100 %>
+      </div>
+      <div>
+         <p> Tags </p>
+         <%= text_field_tag :tag, nil, placeholder: "tag" %>
+      </div>
+    </p>
   </div>
   <div class="modal-footer">
-      <button type="button" data-dismiss="modal" class="btn">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
+    <button type="button" data-dismiss="modal" class="btn">Close</button>
+      <%= submit_tag "Add", class: "btn btn-primary" %>
+    <% end %>
   </div>
 </div>
