@@ -10,6 +10,10 @@ class FavoritesController < ApplicationController
   def create #later this should be ajax
     @favorite = Favorite.find_by_ticket_id(params[:ticket_id])
     if !@favorite
+      # @favorite = Favorite.new(params[:favorite])
+      # @favorite.user = current_user
+      # @favorite.save
+
       @favorite = Favorite.new
       @favorite.ticket_id = params[:ticket_id]
       @favorite.user_id = current_user.id

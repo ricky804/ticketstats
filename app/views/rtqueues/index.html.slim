@@ -6,15 +6,19 @@ div class="container-fluid"
     div class="span10"
       <!--Here goes the body content -->
       h1 Queues
+      div =high_chart("my_id", @chart)
+      br
       table class="table"
         thead
           tr
             th Queue
-            th CreatedBy
+            th Email Address
+            th Description
             th Status
         tbody
           - @rtqueues.each do |queue|
             tr
-              td= queue.Name
-              td= queue.rttickets.count()
-              td= queue.Disabled
+              td= link_to queue.Name, rtqueue_path(queue)
+              td= queue.CorrespondAddress
+              td= queue.Description
+              td= "Active" unless queue.Disabled == 1
