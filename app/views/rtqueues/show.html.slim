@@ -7,6 +7,18 @@ div class="container-fluid"
       <!--Here goes the body content -->
       h1 = @rtqueue.Name
       div = high_chart("my_id4", @chart)
-      - @email_and_count.each do |email, count|
-        p = email
-        p = count
+      div = high_chart("id", @chart_ticket_count_by_email)
+      table class="table"
+        tr
+          th Ticket
+          th Subject
+          th LastUpdated
+          th Status
+        - @open_tickets.each do |ticket|
+          tr
+            td = ticket.id
+            td = ticket.Subject
+            td = ticket.LastUpdated
+            td = ticket.Status
+
+

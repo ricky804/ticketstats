@@ -2,6 +2,8 @@ class Rtuser < ActiveRecord::Base
   #Make sure it is rtticket"s" not rtticket
   has_many :rttickets
 
+  attr_accessor :tickets_count
+
   #Actual table name in RT database
   self.table_name = "users"
 

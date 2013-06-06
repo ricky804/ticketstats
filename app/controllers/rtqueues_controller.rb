@@ -20,13 +20,14 @@ class RtqueuesController < ApplicationController
   def show
     @rtqueue = Rtqueue.find(params[:id])
     hsh_ticket_counts = @rtqueue.rttickets.count(group: "Status")
+    @open_tickets = @rtqueue.rttickets.where(Status: "open").all
     lst_data = Array.new
     hsh_ticket_counts.each do |status, count|
       lst_data << [status, count]
     end
 
     @chart = LazyHighCharts::HighChart.new('pie') do |f|
-      f.chart( { :defaultSeriesType=>"pie", height: 500 } )
+      f.chart( { defaultSeriesType: "pie", height: 500 } )
       series = {
         type: 'pie',
         name: 'Num of tickets',
@@ -48,14 +49,25 @@ class RtqueuesController < ApplicationController
         }
       )
     end
-    @lst_ticket_counts_by_email = @rtqueue.rttickets.count(group: "Creator").sort_by{ |creator, count| count }.reverse
-    @email_and_count = Hash.new
-    @lst_ticket_counts_by_email[0..30].each do | id_count |
-      rtuser = Rtuser.find_by_id(id_count[0])
-      #rtuser = Rtuser.where(id: id_count[0]) this does not work, it returns active relation rather than ractive record
-      if !rtuser.blank? and !rtuser.EmailAddress.blank?
-        @email_and_count[rtuser.EmailAddress] = id_count[1]
-      end
+
+    tickets_count_by_user_id = Hash[@rtqueue.rttickets.count(group: "Creator").sort_by{ |creator, count| -count }.first(20)]
+    @users = Rtuser.where(id: tickets_count_by_user_id.keys)
+    email_and_count = Hash.new
+    @users.each do |user|
+      user.tickets_count = tickets_count_by_user_id[user.id]
+      email_and_count[user.EmailAddress] = user.tickets_count
+    end
+    @chart_ticket_count_by_email = LazyHighCharts::HighChart.new('graph') do |f|
+      f.chart( { height: "500", marginLeft: "100" } )
+      f.title( { text: "Top 20 Requestor" } )
+      f.options[:xAxis][:categories] = email_and_count.keys
+      f.options[:xAxis][:labels] = { rotation: -30, align: 'right', style: { fontSize: '10px'} }
+      f.series(type: 'column', name: 'Ticket Count', data: email_and_count.values)
+      f.plot_options(
+        column: {
+          dataLabels: { enabled: true }
+        }
+      )
     end
   end
 

@@ -60,6 +60,7 @@ Ticketstats::Application.routes.draw do
   # root :to => 'welcome#index'
   #
   root :to => 'index#main'
+  get "customersums" => "customersums#index"
 
   # See how all your routes lay out with "rake routes"
 
