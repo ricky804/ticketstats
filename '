@@ -1,8 +1,0 @@
-class Team
-  attr_accessor :name
-
-  def players
-    
-  end
-
-end
