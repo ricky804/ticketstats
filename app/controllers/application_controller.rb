@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
     closed_ticket_status = ["resolved", "deleted", "rejected"]
   end
 
+  def draw_bar_chart(hsh_data)
+
+
+  end
+
   def draw_simple_line_chart(hsh_ticket_resolved)
     hsh_ticket_resolved.sort_by {|k, v| k }
     @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
