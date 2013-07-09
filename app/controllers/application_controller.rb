@@ -6,6 +6,19 @@ class ApplicationController < ActionController::Base
     closed_ticket_status = ["resolved", "deleted", "rejected"]
   end
 
+  def draw_simple_line_chart(hsh_ticket_resolved)
+    hsh_ticket_resolved.sort_by {|k, v| k }
+    @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
+      f.chart( { defaultSeriesType: "spline" } )
+      f.title( { text: "Number of tickets resolved" } )
+      f.series( type: "spline", name: "Resolved", data: hsh_ticket_resolved.values())
+      f.options[:xAxis][:categories] = hsh_ticket_resolved.keys()
+      f.options[:xAxis][:labels] = { rotation: -90, align: 'right', style: { fontSize: '10px'} }
+      f.options[:yAxis][:title] = { text: "Number of Tickets" }
+      f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 0)
+    end
+  end
+
   def draw_line_chart(hsh_ticket_created, hsh_ticket_closed)
     lst_open_tickets = Array.new
     lst_dates = hsh_ticket_created.keys().sort

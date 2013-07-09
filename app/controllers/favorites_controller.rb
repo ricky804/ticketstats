@@ -19,13 +19,15 @@ class FavoritesController < ApplicationController
       @favorite.user_id = current_user.id
       @favorite.note = params[:note]
       @favorite.tag = params[:tag]
+
       if @favorite.save
         redirect_to rttickets_path, notice: "Successfully updated"
       else
         redirect_to rttickets_path, alert: "Oops something went wrong"
       end
-    else
-      redirect_to rttickets_path, notice: "Already exists"
+
+      else
+        redirect_to rttickets_path, notice: "Already exists"
     end
   end
 

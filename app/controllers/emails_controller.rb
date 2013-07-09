@@ -13,6 +13,9 @@ class EmailsController < ApplicationController
       group: "DATE_FORMAT(Created, '%Y-%m')"
     )
     @chart = draw_line_chart(@counts_created, @counts_closed)
+
+    @counts_resolved_by_email = Transaction.count(conditions: ["NewValue = 'resolved' and Creator = ?", @rtuser.id], group: "DATE_FORMAT(Created, '%Y-%m')")
+    @chart2 = draw_simple_line_chart(@counts_resolved_by_email)
   end
 
 

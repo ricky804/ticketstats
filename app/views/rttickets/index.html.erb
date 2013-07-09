@@ -35,7 +35,7 @@
             <td><%= ticket.LastUpdated %></td>
             <td><%= ticket.Status %></td>
           </tr>
-          <%= render :partial => "particial/modalnote", locals: {ticket: ticket} %>
+          <%= render partial: "particial/modalnote", locals: {ticket: ticket} %>
         <% end %>
         </tbody>
       </table>
