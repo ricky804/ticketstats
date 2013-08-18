@@ -7,6 +7,7 @@ Ticketstats::Application.routes.draw do
   resources :emails
   resources :tickets
   resources :rtqueues, only: [:index, :show]
+  resources :transactions
 
   resources :tests
 

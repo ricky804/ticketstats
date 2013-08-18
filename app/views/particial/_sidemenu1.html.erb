@@ -1,6 +1,7 @@
-<ul class="nav nav-list">
-  <li class="nav-header">Tickets</li>
-  <li><%= link_to "My tickets", rttickets_path %></li>
-  <li><%= link_to "Favorite Tickets", favorites_path %></li>
-  <li><%= link_to "Favorite Customers", favorites_path %></li>
+<ul class="nav nav-tabs nav-stacked">
+  <li class="active"><%= link_to "My Stats", rttickets_path %></li>
+  <li><%= link_to "Bookmarked", favorites_path %></li>
+  <li><%= link_to "Activities", transactions_path %></li>
+  <li><%= link_to "My Customers", favorites_path %></li>
 </ul>
+

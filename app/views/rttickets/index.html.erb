@@ -1,48 +1,72 @@
-<!--Default layout -->
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2">
-      <!--Sidebar content-->
-      <%= render :partial => "particial/sidemenu1" %>
+      <%= render partial: "particial/sidemenu1" %>
     </div>
-    <div class="span10">
-      <!--Here goes the body content -->
-      <h1> My Tickets </h1>
-      <p class="text-right"> <%= @total_number_of_tickets_created_by_user %> Found </p>
-
-      <table class="table table-striped table-hover">
+    <div class="span8">
+      <table class="table">
         <thead>
           <tr>
-            <th>Favorite</th>
-            <th> <%= link_to "Ticket", :page => params[:page] %></th>
-            <th> <%= link_to "Subject", :page => params[:page] %></th>
-            <th> <%= link_to "Last Update", :page => params[:page] %></th>
-            <th> <%= link_to "Status", :page => params[:page]%></th>
+            <th colspan=2 class="section_title"><%= current_user.email %></th>
           </tr>
         </thead>
         <tbody>
-        <% @total_tickets_created_by_user.each do |ticket| %>
           <tr>
-            <td>
-              <% if ticket.favorited?(current_user.id, ticket.id) %>
-                <%= link_to "Favorited", nil, class: "btn btn-info" %>
-              <% else %>
-                <a href=<%= "##{ticket.id}_mymodal" %> data-toggle="modal" class="btn">Favorite</a>
-              <% end %>
-            </td>
-            <td><%= ticket.id %></td>
-            <td><%= ticket.Subject %></td>
-            <td><%= ticket.LastUpdated %></td>
-            <td><%= ticket.Status %></td>
+            <td>Total number of created tickets</td>
+            <td><%= @total_number_of_created_tickets %></td>
           </tr>
-          <%= render partial: "particial/modalnote", locals: {ticket: ticket} %>
-        <% end %>
+          <tr>
+            <td>Total number of resolved tickets(resolve, delete, reject)</td>
+            <td><%= @total_number_of_resolved_tickets %></td>
+          </tr>
+          <tr>
+            <td>Number of tickets currently open </td>
+            <td><%= @open_tickets.count %></td>
+          </tr>
         </tbody>
       </table>
-      <!-- paginate -->
-      <div class="flickr_pagination">
-         <%= will_paginate @total_tickets_created_by_user %>
-       </div>
+
+      <br>
+
+      <div> <%= high_chart("chartid1", @created_tickets_chart) %> </div>
+      <div> <%= high_chart("chartid2", @closed_tickets_chart) %> </div>
+
+      <br>
+
+      <p class="section_title">Tickets currently open</p>
+      <% if @open_tickets.empty? %>
+        <div class="well well-large"> All tickets are closed </div>
+      <% else %>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Favorite</th>
+              <th>Ticket</th>
+              <th>Subject</th>
+              <th>LastUpdated</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @open_tickets.each do |ticket| %>
+            <tr>
+              <td>
+                <% if ticket.favorited?(current_user.id, ticket.id) %>
+                  <%= link_to "Favorited", nil, class: "btn btn-info" %>
+                <% else %>
+                  <a href=<%= "##{ticket.id}_mymodal" %> data-toggle="modal" class="btn">Favorite</a>
+                <% end %>
+              </td>
+              <td><%= ticket.id %></td>
+              <td><%= ticket.Subject %></td>
+              <td><%= ticket.LastUpdated %></td>
+              <td><%= ticket.Status %></td>
+            </tr>
+            <%= render partial: "particial/modalnote", locals: {ticket: ticket} %>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
      </div>
   </div>
 </div>

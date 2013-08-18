@@ -1,0 +1,14 @@
+class Transaction < ActiveRecord::Base
+  self.table_name = "transactions"
+  establish_connection('rtdatabase')
+  has_one :attachment, foreign_key: "TransactionId"
+
+  def activities(user_id)
+    Transaction.where(
+      creator: user_id,
+      type: ["CommentEmailRecord", "Comment", "EmailRecord", "Correspond"]
+    ).order('created desc').limit(1)
+  end
+
+
+end

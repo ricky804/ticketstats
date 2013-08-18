@@ -6,66 +6,57 @@ class ApplicationController < ActionController::Base
     closed_ticket_status = ["resolved", "deleted", "rejected"]
   end
 
-  def draw_bar_chart(hsh_data)
-
-
-  end
-
-  def draw_simple_line_chart(hsh_ticket_resolved)
-    hsh_ticket_resolved.sort_by {|k, v| k }
-    @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
-      f.chart( { defaultSeriesType: "spline" } )
-      f.title( { text: "Number of tickets resolved" } )
-      f.series( type: "spline", name: "Resolved", data: hsh_ticket_resolved.values())
-      f.options[:xAxis][:categories] = hsh_ticket_resolved.keys()
-      f.options[:xAxis][:labels] = { rotation: -90, align: 'right', style: { fontSize: '10px'} }
-      f.options[:yAxis][:title] = { text: "Number of Tickets" }
-      f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 0)
-    end
-  end
-
-  def draw_line_chart(hsh_ticket_created, hsh_ticket_closed)
-    lst_open_tickets = Array.new
-    lst_dates = hsh_ticket_created.keys().sort
-
-    nujuck_created = Hash.new
-    nujuck = 0
-
-    lst_dates.each do |date|
-      nujuck += hsh_ticket_created[date]
-      nujuck_created[date] = nujuck
-    end
-
-    nujuck_closed = Hash.new
-    nujuck2 = 0
-
-    lst_dates.each do |date|
-      nujuck2 += hsh_ticket_closed[date]
-      nujuck_closed[date] = nujuck2
-    end
-
-    hsh_remain_tickets = Hash.new
-    nujuck_created.each do |date, value|
-      hsh_remain_tickets[date] = value - nujuck_closed[date]
-    end
-
-    lst_ticket_closed = hsh_ticket_closed.values()
-    lst_ticket_created = hsh_ticket_created.values()
-    lst_remain_tickets = hsh_remain_tickets.values()
-
+  def draw_horizonal_bar_chart(hsh_data)
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.chart( { defaultSeriesType: "spline" } )
-      f.title( { text: "Ticket Status" } )
-      f.series( type: "spline", name: "Created", data: lst_ticket_created)
-      f.series( type: "spline", name: "Closed", data: lst_ticket_closed)
-      f.series( type: "spline", name: "Open", data: lst_remain_tickets)
-      f.options[:xAxis][:categories] = lst_dates
-      f.options[:xAxis][:labels] = { rotation: -90, align: 'right', style: { fontSize: '10px'} }
-      f.options[:yAxis][:title] = { text: "Number of Tickets" }
+      f.title({ :text=>"Tickets Created"})
+      f.options[:xAxis][:categories] = hsh_data.keys()
+      f.series(type: 'column', name: 'Created', data: hsh_data.values())
       f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 0)
     end
   end
 
+  def line_chart(hsh_data, title, color, legend)
+    LazyHighCharts::HighChart.new('graph') do |f|
+      f.chart({ defaultSeriesType: "spline", borderWidth: 0, height: 300, margin: [70, 0, 80, 40] })
+      f.title({ align: "left", text: title, margin: 100, style: { fontSize: '14px', fontFamily: 'verdana', fontWeight: 'bold' }})
+      f.series( type: "spline", name: legend, color: color, data: hsh_data.values())
+      f.options[:xAxis][:categories] = hsh_data.keys()
+      f.options[:xAxis][:labels] = { rotation: 0, align: 'center', style: { fontSize: '10px'} }
+      f.legend( layout: 'horizontal', align: 'right', verticalAlign: 'top', borderWidth: 1)
+    end
+  end
+
+  def combined_chart(hsh_data1, data1_label, hsh_data2, data2_label, title)
+    LazyHighCharts::HighChart.new('graph') do |f|
+      lst_dates = hsh_data1.keys()
+      lst_dates2 = hsh_data2.keys()
+      lst_dates2.each do |date|
+        if not lst_dates.include? date
+          lst_dates << date
+        end
+        lst_dates.sort
+      end
+
+      lst_sum = Array.new
+      lst_data1 = Array.new
+      lst_data2 = Array.new
+
+      lst_dates.each do |date|
+        lst_data1 << hsh_data1[date].to_i
+        lst_data2 << hsh_data2[date].to_i
+        lst_sum << hsh_data1[date].to_i + hsh_data2[date].to_i
+      end
+
+      f.series( type: 'column', name: data1_label, data: lst_data1 )
+      f.series( type: 'column', name: data2_label, data: lst_data2 )
+      f.series( type: 'spline', name: "All", data: lst_sum )
+      f.chart({ borderWidth: 0, height: 360, margin: [70, 0, 80, 40] })
+      f.title({ align: "left", text: title, margin: 100, style: { fontSize: '14px', fontFamily: 'verdana', fontWeight: 'bold' }})
+      f.options[:xAxis][:categories] = lst_dates
+      f.options[:xAxis][:labels] = { rotation: 0, align: 'center', style: { fontSize: '10px'} }
+      f.legend( layout: 'horizontal', align: 'center', verticalAlign: 'bottom', borderWidth: 1)
+    end
+  end
 
 end
 

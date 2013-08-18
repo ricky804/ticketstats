@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <%= render partial: "particial/sidemenu1" %>
+    </div>
+    <div class="span8">
+      <div> <%= high_chart("chartid", @combined_chart) %> </div>
+      <div class=section_title>Recent Activities</div>
+      <% @activities.each do |activity| %>
+        <div class="panel">
+          <div class="heading">
+            <span class="label label-important"><%= "##{activity.ObjectId}" %></span>
+            <span class="label label-info"><%= activity.Type %></span>
+            <span><%= link_to activity.rtticket.Subject, ticket_url(activity.ObjectId), target: "_blank" %></span>
+          </div>
+          <div class="body">
+            <% activity.attachments.text_only.each do |attachment| %>
+              <%= simple_format(attachment.Content) %>
+            <% end %>
+            <span class="panel_time pull-right label"><%= activity.Created %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+
