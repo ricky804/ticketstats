@@ -8,17 +8,21 @@ class CustomersController < ApplicationController
     @requestor = Requestor.new
     @requestors = @customer.requestors
     hsh_created = Hash.new
+    hsh_created_by_requestor = Hash.new
     lst_rtuser_ids = Array.new
 
     @requestors.each do |requestor|
       lst_rtuser_ids.append(requestor.rtuser_id)
+      hsh_created_by_requestor[requestor.email] = Rtticket.total_number_of_created_tickets(requestor.rtuser_id)
       created_tickets = Rtticket.tickets_created_by_user(requestor.rtuser_id)
       created_tickets.each do |date, count|
         hsh_created[date] = hsh_created[date].to_i + count
       end
     end
     @open_tickets = Rtticket.open_tickets(lst_rtuser_ids)
+    @all_created = Rtticket.total_number_of_created_tickets(lst_rtuser_ids)
     @chart_created = line_chart(hsh_created, "Tickets created by customer", "blue", "Tickets")
+    @chart_created_by_requestor = bar_chart(hsh_created_by_requestor, "Tickets created by requestor", "green", "Tickets")
   end
 
   def create
@@ -45,7 +49,11 @@ class CustomersController < ApplicationController
   end
 
   def destroy
-    Customer.find(params[:id]).destroy
-    redirect_to customers_path
+    customer = Customer.find(params[:id])
+    if customer.destroy
+      redirect_to customers_path, notice: "Deleted Successfully"
+    else
+      redirect_to customer_path(id: customer.id), alert: "Error!"
+    end
   end
 end

@@ -2,16 +2,13 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   protect_from_forgery
 
-  def lst_closed_ticket
-    closed_ticket_status = ["resolved", "deleted", "rejected"]
-  end
-
-  def draw_horizonal_bar_chart(hsh_data)
+  def bar_chart(hsh_data, title, color, legend)
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title({ :text=>"Tickets Created"})
+      f.chart({ defaultSeriesType: "bar", borderWidth: 0, height: 400, margin: [70, 10, 80, 200] })
+      f.title({ align: "left", text: title, margin: 100, style: { fontSize: '14px', fontFamily: 'verdana', fontWeight: 'bold' }})
       f.options[:xAxis][:categories] = hsh_data.keys()
-      f.series(type: 'column', name: 'Created', data: hsh_data.values())
-      f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 0)
+      f.series(type: 'bar', name: legend, color: color, data: hsh_data.values())
+      f.legend( layout: 'vertical', align: 'right', verticalAlign: 'top', borderWidth: 1)
     end
   end
 

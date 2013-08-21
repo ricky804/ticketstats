@@ -5,7 +5,41 @@
     </div>
 
     <div class="span8">
-      <div> <%= high_chart("chartid2", @chart_created) %> </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan=2 class="section_title">
+              <%= @customer.name %>
+              <div class="pull-right">
+                <%= link_to "Delete",
+                  customer_path(@customer),
+                  method: :delete,
+                  confirm: "Are you sure? This will delete all registerd requestors!",
+                  class: "btn btn-small btn-danger"
+                %>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total number of created tickets</td>
+            <td><%= @all_created %></td>
+          </tr>
+          <tr>
+            <td>Number of tickets currently open </td>
+            <td><%= @open_tickets.count %></td>
+          </tr>
+          <tr>
+            <td>Number of requestors </td>
+            <td><%= @requestors.count %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br>
+
+      <div> <%= high_chart("chartid1", @chart_created) %> </div>
 
       <div class="section_title">Requestors</div>
       <table class="table">
@@ -35,27 +69,33 @@
         </div>
       </div>
 
+      <div> <%= high_chart("chartid2", @chart_created_by_requestor) %> </div>
+
       <div class="section_title">Tickets currently open</div>
-      <table class="table table-hover table-striped">
-        <thead>
-            <th>Favorite</th>
-            <th>Ticket</th>
-            <th>Subject</th>
-            <th>CreatedBy</th>
-            <th>LastUpdated</th>
-        </thead>
-        <tbody>
-        <% @open_tickets.each do |ticket| %>
-          <tr>
-            <td>Favorite</td>
-            <td><%= link_to ticket.id, ticket_url(ticket.id), target: "_blank" %></td>
-            <td><%= ticket.Subject %></td>
-            <td><%= ticket.rtuser.EmailAddress %></td>
-            <td><%= ticket.LastUpdated %></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
+      <% if @open_tickets.empty? %>
+        <div class="well well-large"> All tickets are closed </div>
+      <% else %>
+        <table class="table table-hover table-striped">
+          <thead>
+              <th>Favorite</th>
+              <th>Ticket</th>
+              <th>Subject</th>
+              <th>CreatedBy</th>
+              <th>LastUpdated</th>
+          </thead>
+          <tbody>
+          <% @open_tickets.each do |ticket| %>
+            <tr>
+              <td>Favorite</td>
+              <td><%= link_to ticket.id, ticket_url(ticket.id), target: "_blank" %></td>
+              <td><%= ticket.Subject %></td>
+              <td><%= ticket.rtuser.EmailAddress %></td>
+              <td><%= ticket.LastUpdated %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
 
     </div>
   </div>
