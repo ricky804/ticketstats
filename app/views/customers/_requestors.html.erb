@@ -1,0 +1,26 @@
+<table class="table" id="hi">
+  <thead>
+      <th>Requestor</th>
+      <th>Created Tickets</th>
+      <th>Open Tickets</th>
+  </thead>
+  <tbody>
+  <% @requestors.each do |requestor| %>
+    <tr id="row_<%= requestor.id %>">
+      <td><%= requestor.email %></td>
+      <td><%= requestor.rttickets.count %></td>
+      <td><%= requestor.rttickets.where(status: ["open", "new"]).count %></td>
+      <td><%= link_to "Delete", requestor_path(requestor), method: :delete, confirm: "Delete?", remote: true %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<div style="overflow: hidden">
+  <div class="pull-right">
+    <%= simple_form_for @requestor do |f| %>
+      <%= f.input_field :email, style: "margin: 0", hint: "Type email address" %>
+      <%= f.hidden_field :customer_id, value: @customer.id %>
+      <%= f.submit "Add Requestor", class: "btn" %>
+    <% end %>
+  </div>
+</div>

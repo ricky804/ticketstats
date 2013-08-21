@@ -11,22 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130520050849) do
+ActiveRecord::Schema.define(:version => 20130820214713) do
 
   create_table "customers", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "emails", :force => true do |t|
-    t.integer  "customer_id"
-    t.string   "email"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "emails", ["customer_id"], :name => "index_emails_on_customer_id"
 
   create_table "favorites", :force => true do |t|
     t.integer  "user_id"
@@ -39,6 +30,21 @@ ActiveRecord::Schema.define(:version => 20130520050849) do
 
   add_index "favorites", ["ticket_id"], :name => "index_favorites_on_ticket_id"
   add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
+
+  create_table "requestors", :force => true do |t|
+    t.integer  "customer_id"
+    t.string   "email"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "rtuser_id"
+  end
+
+  add_index "requestors", ["customer_id"], :name => "index_emails_on_customer_id"
+
+  create_table "rtqueues", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "tickets", :force => true do |t|
     t.integer  "customer_id"

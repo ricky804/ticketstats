@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2">
-      <%= render partial: "particial/sidemenu1" %>
+      <%= render partial: "partial/sidemenu1" %>
     </div>
     <div class="span8">
       <table class="table">
@@ -62,7 +62,7 @@
               <td><%= ticket.LastUpdated %></td>
               <td><%= ticket.Status %></td>
             </tr>
-            <%= render partial: "particial/modalnote", locals: {ticket: ticket} %>
+            <%= render partial: "partial/modalnote", locals: {ticket: ticket} %>
           <% end %>
           </tbody>
         </table>

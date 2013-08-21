@@ -1,29 +1,24 @@
 class Transaction < ActiveRecord::Base
+  VALUABLE_ACTIONS = ["Comment", "Correspond"]
+
   has_many :attachments, foreign_key: "TransactionId"
   belongs_to :rtticket, foreign_key: "ObjectId"
 
   self.table_name = "transactions"
   establish_connection('rtdatabase')
 
-  def valuable_actions
-    # ["CommentEmailRecord", "Comment", "EmailRecord", "Correspond"]
-    ["Comment", "Correspond"]
-  end
-
-  def activities(user_id)
-    Transaction.where(
+  def self.activities(user_id)
+    scoped.where(
       creator: user_id,
-      type: valuable_actions
+      type: VALUABLE_ACTIONS
     ).order('created desc').limit(10)
   end
 
-  def monthly_activities(user_id, action = valuable_actions )
-    Transaction.where(
+  def self.monthly_activities(user_id, action)
+    scoped.where(
       creator: user_id,
       type: action,
       created: (Time.now.midnight - 1.year)..Time.new.midnight
     ).group("DATE_FORMAT(created, '%Y-%m')").count
-
   end
-
 end

@@ -15,3 +15,11 @@
 //= require bootstrap-modal
 //= require bootstrap-modalmanager
 //= require_tree .
+
+//this is for custoner new view
+$(function(){
+  $("#plus_button").click(function() {
+    return false;
+
+  });
+});

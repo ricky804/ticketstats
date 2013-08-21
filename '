@@ -1,14 +1,43 @@
-class Transaction < ActiveRecord::Base
-  self.table_name = "transactions"
-  establish_connection('rtdatabase')
-  has_one :attachment, foreign_key: "TransactionId"
+<!--Default layout -->
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <%= render :partial => "particial/sidemenu2" %>
+    </div>
+    <div class="span8">
+      <div class="section_title">Customers</div>
+      <div style="padding-bottom: 80px">
+        <span class="pull-left">
+          <form class="form-search">
+            <input type="text" class="input-medium search-query">
+            <button type="submit" class="btn">Search</button>
+          </form>
+        </span>
+        <span class="pull-right">
+          <%= link_to "New Customer", new_customer_path, class: "btn btn-info" %>
+        </span>
+      </div>
+      <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Favorite</th>
+              <th>Name</th>
+              <th>Requestors</th>
+              <th>View</th>
+            </tr>
+          </thead>
+        <% @customer.each do |c| %>
+          <tr>
+            <td><a class="btn btn-small" href="#"><i class="icon-star-empty"></i></a></td>
+            <td><%= c.name %></td>
+            <td><%= c.requestors.count() %></td>
+            <td><%= link_to "View", customer_path(c), class: "btn" %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
 
-  def activities(user_id)
-    Transaction.where(
-      creator: user_id,
-      type: ["CommentEmailRecord", "Comment", "EmailRecord", "Correspond"]
-    ).order('created desc').limit(1)
-  end
 
 
-end

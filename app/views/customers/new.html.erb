@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <%= render :partial => "partial/sidemenu2" %>
+    </div>
+    <div class="span8">
+      <div class="section_title"> Add a new customer</div>
+      <!-- When this page gets reloaded by the controller -->
+      <% @requestor.errors.full_messages.each do |error_message| %>
+        <div class="alert alert-error"> <%= error_message %> </div>
+      <% end %>
+
+      <div class="well">
+        <%= simple_form_for @customer do |f| %>
+          <p>Customer Name</p>
+          <%= f.input :name, label: false %>
+
+          <p> Email Address </p>
+            <%= text_field_tag :email, @requestor.try(:email) %>
+            <button class="btn btn-info" style="margin: 0 0 10px 10px" id="plus_button">
+              <i class="icon-plus"></i>
+            </button>
+
+          <p style="margin-top: 20px"><%= f.submit class: "btn btn-primary", value: "Create" %></p>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

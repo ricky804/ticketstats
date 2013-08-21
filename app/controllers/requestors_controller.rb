@@ -1,6 +1,6 @@
-class EmailsController < ApplicationController
+class RequestorsController < ApplicationController
   def index
-    @email = Email.all
+    @requestors = Requestor.all
   end
 
   def show
@@ -18,31 +18,31 @@ class EmailsController < ApplicationController
     @chart2 = draw_simple_line_chart(@counts_resolved_by_email)
   end
 
-
   def create
-    @email = Email.new(params[:email])
-    if @email.valid?
-      if !@email.customer_id.blank?
-        if @email.save
-          redirect_to emails_path
-        else
-          render action: "new"
-        end
+    @requestor = Requestor.new(params[:requestor])
+    @requestor.rtuser_id = Requestor.get_rtuser_id(@requestor.email)
+    if @requestor.valid?
+      if @requestor.save
+        redirect_to customer_path(id: @requestor.customer_id), notice: "Saved Successfully"
       else
-        render action: "new"
+        redirect_to customer_path(id: @requestor.customer_id), alert: "Error!"
       end
     else
-      render action: "new"
+      redirect_to customer_path(id: @requestor.customer_id), alert: "Error!"
     end
   end
 
   def new
-    @email = Email.new
+    @requestor = Requestor.new
   end
 
   def destroy
-    Email.find_by_id(params[:id]).destroy
-    redirect_to emails_path
+    requestor = Requestor.find(params[:id])
+    if requestor.destroy
+      redirect_to customer_path(id: requestor.customer_id), notice: "Successfully Removed"
+    else
+      redirect_to customer_path(id: requestor.customer_id), alert: "Error!"
+    end
   end
 
 end

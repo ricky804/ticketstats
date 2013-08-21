@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<% if user_signed_in? %>
+  <% if user_signed_in? %>
     <!--Header bar-->
     <div class="navbar navbar-inverse">
       <div class="navbar-inner">
@@ -35,22 +35,19 @@
     <% if alert %>
       <p class="alert alert-error"><%= alert %></p>
     <% end %>
+
     <!--Actual body-->
     <%= yield %>
-    <footer class="footer">
-      <div class="container">
-        <p> Customer Support Center (CSE) : support@cdnetworks.com +1-408-228-3455 </p>
-        <p> Copyright@CDNetworks Inc. All Rights Reserve </p>
-      </div>
-    </footer>
-    </body>
-
-<!-- if user is not signed in -->
-<% else %>
+  <footer class="footer">
+    <p> Customer Support Center (CSE) : support@cdnetworks.com +1-408-228-3455 </p>
+    <p> Copyright@CDNetworks Inc. All Rights Reserve </p>
+  </footer>
+  <!-- if user is not signed in -->
+  <% else %>
     <img src="/assets/background.jpg" id="full-screen-background-image">
     <div id="wrapper">
       <%= yield %>
     </div>
-<% end %>
+  <% end %>
 </body>
 </html>
