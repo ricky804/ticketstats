@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <%= render partial: "partial/sidemenu3" %>
+    </div>
+    <div class="span8">
+      <div class="section_title">Ticket queues</div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Queue</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <% @rtqueues.each do |queue| %>
+          <tr>
+            <td>
+              <% if queue.Disabled.to_i == 1 %>
+                <div class="label label">Disabled</div>
+              <% else %>
+                <div class="label label-success">Enabled</div>
+              <% end %>
+            </td>
+            <td><%= queue.Name %></td>
+            <td><%= queue.Description %></td>
+            <td><%= link_to "View", rtqueue_path(queue), class: "btn" %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+

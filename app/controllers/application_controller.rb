@@ -55,5 +55,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def pie_chart(lst_data, title, legend)
+    LazyHighCharts::HighChart.new('pie') do |f|
+      f.chart({ defaultSeriesType: "pie", height: 350, width: 600, borderWidth: 1, margin: [15, 150, 10, 10] })
+      f.title({ align: "left", text: title, margin: 100, style: { fontSize: '14px', fontFamily: 'verdana', fontWeight: 'bold' }})
+      f.series( type: 'pie', name: legend, data: lst_data )
+      f.legend( layout: 'vertical', verticalAlign: 'top', align: 'right', floating: true)
+      f.plot_options(
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          showInLegend: true,
+          dataLabels: {
+            enabled: true,
+            color: "black",
+            format: "{point.name} {point.percentage:.1f}%"
+          }
+        }
+      )
+    end
+  end
 end
 

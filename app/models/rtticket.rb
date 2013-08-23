@@ -1,6 +1,20 @@
 class Rtticket < ActiveRecord::Base
-  OPEN_STATUS = ['new', 'open']
-  CLOSE_STATUS = ['resolved', 'deleted', 'rejected']
+  @@OPEN_STATUS = [
+    'new',
+    'open',
+    'ActionCust',
+    'ActionINF',
+    'ActionAM',
+    'ActionSE',
+    'FutureCSC',
+    'WorkingCSC',
+    'stalled',
+    'CusCommReq',
+    'ActionSD',
+    'PenApprove',
+    'PenConfirm'
+  ]
+  @@CLOSE_STATUS = ['resolved', 'deleted', 'rejected']
 
   belongs_to :rtuser, foreign_key: "Creator"
   belongs_to :rtqueue, foreign_key: "Queue"
@@ -10,12 +24,24 @@ class Rtticket < ActiveRecord::Base
   self.table_name = "tickets"
   establish_connection('rtdatabase')
 
+  def self.open_status
+    @@OPEN_STATUS
+  end
+
+  def self.close_status
+    @@CLOSE_STATUS
+  end
+
   def self.open_tickets(user_id)
-    scoped.where(creator: user_id, status: OPEN_STATUS).order('lastupdated desc')
+    scoped.where(creator: user_id, status: @@OPEN_STATUS).order('lastupdated desc')
+  end
+
+  def self.all_created_tickets(user_id)
+    scoped.where(creator: user_id).order('lastupdated desc')
   end
 
   def self.total_number_of_open_tickets(user_id)
-    scoped.where(creator: user_id, status: OPEN_STATUS).count
+    scoped.where(creator: user_id, status: @@OPEN_STATUS).count
   end
 
   def self.total_number_of_created_tickets(user_id)
@@ -23,7 +49,7 @@ class Rtticket < ActiveRecord::Base
   end
 
   def self.total_number_of_resolved_tickets(user_id)
-    scoped.where(lastupdatedby: user_id, status: CLOSE_STATUS).count
+    scoped.where(lastupdatedby: user_id, status: @@CLOSE_STATUS).count
   end
 
   def self.tickets_created_by_user(user_id)
@@ -37,7 +63,7 @@ class Rtticket < ActiveRecord::Base
     scoped.where(
       lastupdatedby: user_id,
       created: (Time.now.midnight - 1.year)..Time.now.midnight,
-      status: CLOSE_STATUS
+      status: @@CLOSE_STATUS
     ).group("DATE_FORMAT(lastupdated, '%Y-%m')").count
   end
 
